@@ -2,20 +2,31 @@
 
 namespace App\Services\CryptoConverter\ConversionServices;
 
+use App\Exceptions\CryptoConverterException;
 use App\Models\CryptoCalculation;
 use Illuminate\Http\Client\Response;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
 class ExchangeRateService implements ConversionService
 {
     private const BASE_URL = 'https://api.exchangerate.host/convert';
 
+    /**
+     * @throws CryptoConverterException
+     */
     public function convert(float $amount, string $currencyFrom, string $currencyTo): float
     {
         $response = $this->getResponse($amount, $currencyFrom, $currencyTo);
-        //@todo:check if response was successful
-        $result = Arr::get($response->json(), 'result');
+
+        if (!$response->successful()) {
+            throw new CryptoConverterException();
+        }
+
+        $result = $response->json('result');
+
+        if (is_null($result)) {
+            throw new CryptoConverterException();
+        }
 
         CryptoCalculation::create([
             'amount' => $amount,
