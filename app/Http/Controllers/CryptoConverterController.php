@@ -17,7 +17,7 @@ class CryptoConverterController extends Controller
     public function convert(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'amount' => 'required|numeric',
+            'amount' => 'required|numeric|min:0.01',
             'currencyFrom' => [
                 'required',
                 new Enum(AcceptedCurrency::class)
