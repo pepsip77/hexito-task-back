@@ -4,7 +4,7 @@
 User story
 As a user I want to be able to convert EUR, USD or PLN to ANY crypto.
 
-## Success Flow
+### Success Flow
 - Navigate to app
 - I see 3 input fields
 - Amount input (number)
@@ -14,8 +14,7 @@ As a user I want to be able to convert EUR, USD or PLN to ANY crypto.
 - After submitting I should see some text on how much I’ll get crypto for that amount of
   money.
 
-
-Tech requirements
+### Tech requirements
 - Modern PHP framework
 - Modern CSS framework
 - Vue.js/React.js in front
@@ -28,8 +27,8 @@ Crypto API to use: https://exchangerate.host/#/docs
 
 ## Requirements
 - PHP 8.1
+
 ## How to run
 - Run ```composer install```
 - Fill .env file based on .env.example
 - Run project using ```php artisan serve```
-
