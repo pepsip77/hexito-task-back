@@ -2,6 +2,7 @@
 
 namespace App\Services\CryptoConverter\ConversionServices;
 
+use App\Models\CryptoCalculation;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
@@ -15,7 +16,14 @@ class ExchangeRateService implements ConversionService
         $response = $this->getResponse($amount, $currencyFrom, $currencyTo);
         //@todo:check if response was successful
         $result = Arr::get($response->json(), 'result');
-        //@todo: put everything to DB
+
+        CryptoCalculation::create([
+            'amount' => $amount,
+            'currency_from' => $currencyFrom,
+            'currency_to' => $currencyTo,
+            'result' => $result,
+        ]);
+
         return $result;
     }
 
