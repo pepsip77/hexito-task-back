@@ -3,7 +3,6 @@
 namespace App\Services\CryptoConverter\ConversionServices;
 
 use App\Exceptions\CryptoConverterException;
-use App\Models\CryptoCalculation;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 
@@ -27,13 +26,6 @@ class ExchangeRateService implements ConversionService
         if (is_null($result)) {
             throw new CryptoConverterException();
         }
-
-        CryptoCalculation::create([
-            'amount' => $amount,
-            'currency_from' => $currencyFrom,
-            'currency_to' => $currencyTo,
-            'result' => $result,
-        ]);
 
         return $result;
     }
