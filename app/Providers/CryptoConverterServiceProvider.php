@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\CryptoCalculation;
 use App\Services\CryptoConverter\ConversionServices\ConversionService;
 use App\Services\CryptoConverter\CryptoConverterService;
 use Illuminate\Contracts\Container\BindingResolutionException;
@@ -18,11 +19,12 @@ class CryptoConverterServiceProvider extends ServiceProvider implements Deferrab
      */
     public function register(): void
     {
+        $model = $this->app->make(CryptoCalculation::class);
         $conversionService = $this->app->make(ConversionService::class);
 
         $this->app->singleton(
             CryptoConverterService::class,
-            fn ($app) => new CryptoConverterService($conversionService)
+            fn ($app) => new CryptoConverterService($model, $conversionService)
         );
     }
 }

@@ -11,13 +11,15 @@ class CryptoConverterServiceTest extends TestCase
 {
     private CryptoConverterService $service;
     private ConversionService $conversionService;
+    private CryptoCalculation $model;
 
     public function setUp(): void
     {
         parent::setUp();
 
+        $this->model = Mockery::mock(CryptoCalculation::class);
         $this->conversionService = $this->createMock(ConversionService::class);
-        $this->service = new CryptoConverterService($this->conversionService);
+        $this->service = new CryptoConverterService($this->model, $this->conversionService);
     }
 
     /**
@@ -35,10 +37,8 @@ class CryptoConverterServiceTest extends TestCase
             ->method('convert')
             ->willReturn($expectedResult);
 
-        $mock = Mockery::mock(CryptoCalculation::class);
-        $this->app->instance(CryptoCalculation::class, $mock);
-
-        $mock->shouldReceive('create')
+        $this->model
+            ->shouldReceive('create')
             ->once();
 
         $result = $this->service->convert($amount, $currencyFrom, $currencyTo);

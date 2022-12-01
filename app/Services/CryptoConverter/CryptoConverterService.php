@@ -7,15 +7,17 @@ use App\Services\CryptoConverter\ConversionServices\ConversionService;
 
 class CryptoConverterService
 {
-    public function __construct(private readonly ConversionService $conversionService)
-    {
+    public function __construct(
+        private readonly CryptoCalculation $model,
+        private readonly ConversionService $conversionService
+    ){
     }
 
     public function convert(float $amount, string $currencyFrom, string $currencyTo): float
     {
         $result = $this->conversionService->convert($amount, $currencyFrom, $currencyTo);
 
-        app(CryptoCalculation::class)::create([
+        $this->model::create([
             'amount' => $amount,
             'currency_from' => $currencyFrom,
             'currency_to' => $currencyTo,
