@@ -15,7 +15,7 @@ class CryptoConverterService
     {
         $result = $this->conversionService->convert($amount, $currencyFrom, $currencyTo);
 
-        CryptoCalculation::create([
+        app(CryptoCalculation::class)::create([
             'amount' => $amount,
             'currency_from' => $currencyFrom,
             'currency_to' => $currencyTo,
